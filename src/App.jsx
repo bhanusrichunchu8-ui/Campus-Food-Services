@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Utensils, LayoutDashboard, UserCheck } from 'lucide-react';
 import StudentPortal from './components/StudentPortal';
+import AdminDashboard from './components/AdminDashboard';
 import VirtualAgent from './components/VirtualAgent';
 
 function App() {
@@ -31,6 +32,14 @@ function App() {
 
   const handleAddCase = (newCase) => {
     setCases((prevCases) => [newCase, ...prevCases]);
+  };
+
+  const handleUpdateStatus = (caseId, newStatus) => {
+    setCases((prevCases) =>
+      prevCases.map((c) =>
+        c.id === caseId ? { ...c, status: newStatus } : c
+      )
+    );
   };
 
   return (
@@ -66,10 +75,7 @@ function App() {
         )}
 
         {activeTab === 'admin' && (
-          <div className="placeholder-card">
-            <h2>Administrative Command Centre</h2>
-            <p>Total logged cases available for review: <strong>{cases.length}</strong></p>
-          </div>
+          <AdminDashboard cases={cases} onUpdateStatus={handleUpdateStatus} />
         )}
       </main>
 

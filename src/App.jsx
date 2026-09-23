@@ -1,8 +1,37 @@
 import React, { useState } from 'react';
-import { Utensils, LayoutDashboard, UserCheck, Bot } from 'lucide-react';
+import { Utensils, LayoutDashboard, UserCheck } from 'lucide-react';
+import StudentPortal from './components/StudentPortal';
 
 function App() {
   const [activeTab, setActiveTab] = useState('student');
+  
+  // Shared state for cases submitted by students
+  const [cases, setCases] = useState([
+    {
+      id: 'FS-1001',
+      type: 'Complaint',
+      category: 'Food Quality',
+      details: 'Sambar served cold in Mess Block A during lunch time.',
+      urgency: 'Medium',
+      status: 'In Progress',
+      timestamp: '12:30 PM',
+      date: '2026-03-30'
+    },
+    {
+      id: 'FS-1002',
+      type: 'Complaint',
+      category: 'Hygiene & Safety',
+      details: 'Water counter near exit needs cleaning.',
+      urgency: 'High',
+      status: 'Escalated',
+      timestamp: '01:15 PM',
+      date: '2026-03-30'
+    }
+  ]);
+
+  const handleAddCase = (newCase) => {
+    setCases([newCase, ...cases]);
+  };
 
   return (
     <div className="app-container">
@@ -33,16 +62,13 @@ function App() {
       {/* Main Content Area */}
       <main className="main-content">
         {activeTab === 'student' && (
-          <div className="placeholder-card">
-            <h2>Student Self-Service Portal</h2>
-            <p>Report issues, check menus, reserve meals, and manage dietary preferences.</p>
-          </div>
+          <StudentPortal cases={cases} onAddCase={handleAddCase} />
         )}
 
         {activeTab === 'admin' && (
           <div className="placeholder-card">
             <h2>Administrative Command Centre</h2>
-            <p>Monitor open complaints, SLA status, meal reservations, and food-waste insights.</p>
+            <p>Total logged cases available for review: <strong>{cases.length}</strong></p>
           </div>
         )}
       </main>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Utensils, LayoutDashboard, UserCheck } from 'lucide-react';
 import StudentPortal from './components/StudentPortal';
+import VirtualAgent from './components/VirtualAgent';
 
 function App() {
   const [activeTab, setActiveTab] = useState('student');
   
-  // Shared state for cases submitted by students
   const [cases, setCases] = useState([
     {
       id: 'FS-1001',
@@ -30,7 +30,7 @@ function App() {
   ]);
 
   const handleAddCase = (newCase) => {
-    setCases([newCase, ...cases]);
+    setCases((prevCases) => [newCase, ...prevCases]);
   };
 
   return (
@@ -72,6 +72,9 @@ function App() {
           </div>
         )}
       </main>
+
+      {/* Persistent AI Virtual Agent Chatbot */}
+      <VirtualAgent onAddCase={handleAddCase} />
     </div>
   );
 }
